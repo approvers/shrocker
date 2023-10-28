@@ -12,14 +12,12 @@ compile_error!("Neither local nor console is specified - this is illegal!");
 
 use std::future::Future;
 
-pub struct CommandExecuteResult {
-    pub exit_code: u8,
-}
+pub type CommandExecuteResult = Result<(), u8>;
 
 pub trait CommandExecutor {
     /// Runs command on the shared machine.
     ///
-    /// ### Safety
+    /// ### Note
     /// The method execute is *NOT* expected to sanitize the `command_line` argument.
     /// The user of execute MUST validate, sanitize the `command_line` argument before executing it!
     ///
@@ -27,5 +25,17 @@ pub trait CommandExecutor {
     ///    - `'`, `"`, and back-quote (breaks `'{command_line}'`, `"{command_line}"`)
     ///    - `|`, `>` (might do some unexpected command execution)
     ///    - `../`, `/` (directory traversal!)
-    unsafe fn execute(command_line: String) -> impl Future<Output = CommandExecuteResult> + Send;
+    fn execute(&self, command_line: &str) -> impl Future<Output = CommandExecuteResult> + Send;
+}
+
+pub fn initialize_executor() -> impl CommandExecutor {
+    #[cfg(feature = "local")]
+    {
+        local::LocalCommandExecutor::new()
+    }
+
+    #[cfg(feature = "console")]
+    {
+        console::ConsoleCommandExecutor
+    }
 }

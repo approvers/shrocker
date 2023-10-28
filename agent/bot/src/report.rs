@@ -13,6 +13,31 @@ bitflags! {
 
 pub trait Reporter {
     async fn report(&mut self, msg: &str, pref: impl Into<Option<ReportPreference>>) -> Result<()>;
+
+    fn empathize(&self, msg: &str) -> String {
+        msg.to_string()
+    }
+
+    async fn error(&mut self, msg: &str, pref: impl Into<Option<ReportPreference>>) -> Result<()> {
+        let (title, desc) = msg.split_once('\n').unwrap_or((msg, ""));
+        let title = self.empathize(title);
+
+        self.report(&format!("🛑 {title}\n{desc}"), pref).await
+    }
+
+    async fn processing(&mut self, msg: &str, pref: impl Into<Option<ReportPreference>>) -> Result<()> {
+        let (title, desc) = msg.split_once('\n').unwrap_or((msg, ""));
+        let title = self.empathize(title);
+
+        self.report(&format!("⏳ {title}\n{desc}"), pref).await
+    }
+
+    async fn success(&mut self, msg: &str, pref: impl Into<Option<ReportPreference>>) -> Result<()> {
+        let (title, desc) = msg.split_once('\n').unwrap_or((msg, ""));
+        let title = self.empathize(title);
+
+        self.report(&format!("✅ {title}\n{desc}"), pref).await
+    }
 }
 
 pub struct SerenityReporter<'ctx> {
@@ -43,6 +68,10 @@ impl<'ctx> Reporter for SerenityReporter<'ctx> {
         }
 
         Ok(())
+    }
+
+    fn empathize(&self, msg: &str) -> String {
+        format!("**{msg}**")
     }
 }
 
