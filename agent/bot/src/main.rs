@@ -1,9 +1,11 @@
 mod cmd;
+mod config;
 mod report;
 mod handler;
 
-use std::env;
+use std::{env, path::Path};
 
+use config::Configuration;
 use handler::Handler;
 
 use serenity::{prelude::GatewayIntents, Client};
@@ -19,8 +21,15 @@ async fn main() {
     let token = env::var("DISCORD_TOKEN").expect("should be specified");
     let intents = GatewayIntents::non_privileged() | GatewayIntents::MESSAGE_CONTENT | GatewayIntents::GUILD_PRESENCES;
 
+    let handler = Handler {
+        agent,
+        config: Configuration {
+            connection_guidance: load_connection_file(Path::new(&env::var("CONNECTION_GUIDANCE").unwrap()))
+        },
+    };
+
     let mut client = Client::builder(token, intents)
-        .event_handler(Handler { agent })
+        .event_handler(handler)
         .await
         .expect("Client could not be created");
 
@@ -33,4 +42,8 @@ async fn main() {
             eprintln!("{reason}")
         }
     }
+}
+
+fn load_connection_file(path: &Path) -> String {
+    std::fs::read_to_string(path).unwrap()
 }

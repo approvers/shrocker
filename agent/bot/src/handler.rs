@@ -3,14 +3,15 @@ use indoc::indoc;
 use serenity::{prelude::*, model::prelude::*, async_trait};
 use shrocker_agent::Agent;
 
-use crate::{report::{SerenityReporter, Reporter}, cmd::{register::perform_register, BotContext}};
+use crate::{report::{SerenityReporter, Reporter}, cmd::{register::perform_register, BotContext}, config::Configuration};
 
 const BOT_PREFIX: &str = "!shr";
 
 pub struct Handler<A>
     where A: Agent
 {
-    pub agent: A
+    pub agent: A,
+    pub config: Configuration,
 }
 
 #[async_trait]
@@ -52,6 +53,7 @@ impl<A> EventHandler for Handler<A>
             ctx: &ctx,
             new_message: &new_message,
             reporter: &mut reporter,
+            config: &self.config,
         };
 
         let cmd_result = match parsed {

@@ -12,7 +12,7 @@ pub async fn create_user<X>(ctx: &impl HasContext<X>, user: &Username, ssh_pub_k
     let ctx = ctx.ctx();
     let user = user.to_string();
 
-    if ctx.cmd_exec.execute(&format!("grep '{user}' /etc/passwd")).await.is_ok() {
+    if ctx.cmd_exec.execute(&format!("! grep '{user}' /etc/passwd")).await.is_err() {
         return Err(CreateUserError::AlreadyExists);
     }
 

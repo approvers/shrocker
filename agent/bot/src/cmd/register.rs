@@ -34,6 +34,15 @@ pub async fn perform_register<A, R>(ctx: &mut BotContext<'_, '_, '_, A, R>, user
         Now I will DM you to send the connection configuration. Don't lose it, because I won't send this again!
     "}, None).await.unwrap();
 
+    ctx.new_message.author.direct_message(ctx.ctx, |msg| {
+        msg.content(formatdoc! {"
+            Thank you for the registration! Here is the configuration you need to connect.
+            ---------------------
+            {}
+            ---------------------
+        ", ctx.config.connection_guidance})
+    }).await.unwrap();
+
     Ok(())
 }
 
