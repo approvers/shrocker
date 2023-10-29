@@ -14,7 +14,7 @@ use std::future::Future;
 
 pub type CommandExecuteResult = Result<(), u8>;
 
-pub trait CommandExecutor {
+pub trait CommandExecutor: Send + Sync {
     /// Runs command on the shared machine.
     ///
     /// ### Note

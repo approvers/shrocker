@@ -32,3 +32,17 @@ impl ToString for Username {
         self.0.to_string()
     }
 }
+
+pub struct SSHPublicKey(String);
+
+impl SSHPublicKey {
+    pub(crate) fn new(raw: &str) -> Self {
+        Self(raw.to_string())
+    }
+}
+
+impl ToString for SSHPublicKey {
+    fn to_string(&self) -> String {
+        self.0.to_string()
+    }
+}
