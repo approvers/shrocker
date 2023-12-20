@@ -16,7 +16,7 @@ dotenv = "0.15.0"
 indoc = "2.0.4"
 shlex = "1.2.0"
 shrocker-agent = { path = "../" }
-tokio = { version = "1.33.0", features = ["macros", "rt-multi-thread"] }
+tokio = { version = "1.35.1", features = ["macros", "rt-multi-thread"] }
 
 [dependencies.serenity]
 version = "0.11.7"

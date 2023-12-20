@@ -13,4 +13,4 @@ anyhow = "1.0.75"
 dotenv = "0.15.0"
 gethostname = "0.4.3"
 thiserror = "1.0.50"
-tokio = { version = "1.33.0", features = ["process"] }
+tokio = { version = "1.35.1", features = ["process"] }
