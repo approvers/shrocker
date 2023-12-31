@@ -9,7 +9,7 @@ local = []
 console = []
 
 [dependencies]
-anyhow = "1.0.75"
+anyhow = "1.0.78"
 dotenv = "0.15.0"
 gethostname = "0.4.3"
 thiserror = "1.0.50"
