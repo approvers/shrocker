@@ -9,7 +9,7 @@ console = ["shrocker-agent/console"]
 local = ["shrocker-agent/local"]
 
 [dependencies]
-anyhow = "1.0.75"
+anyhow = "1.0.79"
 bitflags = "2.4.1"
 clap = { version = "4.4.7", default-features = false, features = ["error-context", "help", "std", "suggestions", "usage", "derive"] }
 dotenv = "0.15.0"
