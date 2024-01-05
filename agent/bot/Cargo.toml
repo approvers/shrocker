@@ -11,7 +11,7 @@ local = ["shrocker-agent/local"]
 [dependencies]
 anyhow = "1.0.75"
 bitflags = "2.4.1"
-clap = { version = "4.4.7", default-features = false, features = ["error-context", "help", "std", "suggestions", "usage", "derive"] }
+clap = { version = "4.4.13", default-features = false, features = ["error-context", "help", "std", "suggestions", "usage", "derive"] }
 dotenv = "0.15.0"
 indoc = "2.0.4"
 shlex = "1.2.0"
